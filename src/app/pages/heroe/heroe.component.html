@@ -14,12 +14,14 @@
 
 <div class="row animated fadeIn faster">
   <div class="col">
-    <form>
+    <form (ngSubmit)="save(f)" #f = "ngForm">
       <div class="form-group">
         <label>Firebase ID</label>
         <input type="text" 
                class="form-control"
                placeholder="Firebase ID"
+               [(ngModel)]="heroe.id"
+               name="id"
                disabled="disabled">
         <small class="form-text text-muted">This field is self generated</small>
       </div>
@@ -29,6 +31,8 @@
         <input type="text" 
                class="form-control"
                placeholder="Hero name"
+               [(ngModel)]="heroe.name"
+               name="name"
                required>
       </div>
       
@@ -36,16 +40,26 @@
         <label>Power</label>
         <input type="text" 
                class="form-control"
+               [(ngModel)]="heroe.power"
+               name="power"
                placeholder="Hero power">
       </div>
 
       <div class="form-group">
         <label>State</label>
         <br>
-        <button class="btn btn-outline-success w-50" type="button">
+
+        <button *ngIf="heroe.alive" 
+                (click)="heroe.alive = false"
+                class="btn btn-outline-success w-50" 
+                type="button">
           <i class="fa fa-smile-wink">Alive</i>
         </button>
-        <button class="btn btn-outline-danger w-50" type="button">
+
+        <button *ngIf="!heroe.alive" 
+                 (click)="heroe.alive = true"
+                 class="btn btn-outline-danger w-50" 
+                 type="button">
           <i class="fa fa-dizzy">Dead</i>
         </button>
       </div>
