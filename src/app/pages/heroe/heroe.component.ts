@@ -3,6 +3,9 @@ import { HeroeModel } from 'src/app/models/heroe.model';
 import { NgForm } from '@angular/forms';
 import { HeroesService } from 'src/app/services/heroes.service';
 
+import Swal from 'sweetalert2';
+import { Observable } from 'rxjs';
+
 @Component({
   selector: 'app-heroe',
   templateUrl: './heroe.component.html',
@@ -24,17 +27,33 @@ export class HeroeComponent implements OnInit {
       return;
     }
 
+    Swal.fire({
+      title:'Wait',
+      text: 'Saving information',
+      type: 'info',
+      allowOutsideClick: false
+    });
+    Swal.showLoading();
+
+    let peticion: Observable<any>; //Creamos un observable que recoja la peticion tanto de create como de update y dependiendo de cual sea enviará un mensaje u otro
+    let text: string;
+
     if (this.heroe.id) {
-      this.heroesService.updateHero(this.heroe)
-        .subscribe(resp => {
-          console.log(resp);
-        });      
+      peticion = this.heroesService.updateHero(this.heroe);
+      text = 'Updated correctly in the database';     
     } else {      
-      this.heroesService.createHero(this.heroe)
-        .subscribe (resp => {
-          console.log(resp);
-        });
+      peticion = this.heroesService.createHero(this.heroe);
+      text = 'Created correctly in the database';
     }
+
+    peticion.subscribe( resp => {
+        Swal.fire({
+          title: this.heroe.name,
+          text,
+          type: 'success'
+        });
+
+    });
 
   }
 
