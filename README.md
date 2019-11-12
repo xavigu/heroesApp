@@ -25,3 +25,8 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Info
+
+Create a Project and a Database in Firebase and use the Rest API to create the structure of the database of the app
+Import HttpClientModule in the app.module to make requests in your heroes.service
