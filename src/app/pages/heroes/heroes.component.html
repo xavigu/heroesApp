@@ -17,27 +17,36 @@
   <thead class="thead-dark">
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Id</th>
       <th scope="col">Name</th>
       <th scope="col">Power</th>
       <th scope="col">State</th>
+      <th scope="col">Tools</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let hero of heroes; let i = index" >
       <th scope="row">{{i+1}}</th>
-      <td>{{hero.id}}</td>
       <td>{{hero.name}}</td>
       <td>{{hero.power}}</td>
       <td>
           <label *ngIf="hero.alive" class="badge badge-success">Alive</label>
           <label *ngIf="!hero.alive"class="badge badge-danger">Dead</label>
       </td>
+      <td>   
+        <!-- entre corchetes se le dice a angular que este routerLink va a tener una configuración especifica dinamica -->
+         <button [routerLink]="['/heroe', hero.id]"
+                 class="btn btn-info mr-1">
+          <i class="fa fa-pen"></i>
+        </button>
+        <button class="btn btn-danger">
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
     </tr>
   </tbody>
 </table>
 
-<div class="alert alert-warning text-center mt-3">
+<div *ngIf="heroes.length === 0" class=" alert alert-warning text-center mt-3">
   <h4 class="alert-heading">There are not records</h4>
   <p>
     <i class="fa fa-exclamation fa-2x"></i>

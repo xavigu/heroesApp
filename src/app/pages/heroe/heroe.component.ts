@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { HeroeModel } from 'src/app/models/heroe.model';
 import { NgForm } from '@angular/forms';
-import { HeroesService } from 'src/app/services/heroes.service';
-
-import Swal from 'sweetalert2';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+
+import { HeroeModel } from 'src/app/models/heroe.model';
+import { HeroesService } from 'src/app/services/heroes.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-heroe',
@@ -15,9 +16,18 @@ export class HeroeComponent implements OnInit {
 
   heroe: HeroeModel = new HeroeModel();
 
-  constructor(private heroesService: HeroesService) { }
+  constructor(private heroesService: HeroesService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id'); //obtienes el id de la url para cargar los datos en pantalla a través del metodo de getHeroe(hay que importar la libreria activatedRoute para ello)
+    if (id !== 'nuevo') {
+      this.heroesService.getHero(id)
+          .subscribe( (resp: HeroeModel) => {
+            this.heroe = resp;
+            this.heroe.id = id;
+          })
+    }
   }
 
   save(form: NgForm){
