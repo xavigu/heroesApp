@@ -17,19 +17,22 @@
   <thead class="thead-dark">
     <tr>
       <th scope="col">#</th>
+      <th scope="col">Id</th>
       <th scope="col">Name</th>
       <th scope="col">Power</th>
-      <th scope="col">Alive</th>
-      <th scope="col">Tools</th>
+      <th scope="col">State</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-      <td>@mdo</td>
+    <tr *ngFor="let hero of heroes; let i = index" >
+      <th scope="row">{{i+1}}</th>
+      <td>{{hero.id}}</td>
+      <td>{{hero.name}}</td>
+      <td>{{hero.power}}</td>
+      <td>
+          <label *ngIf="hero.alive" class="badge badge-success">Alive</label>
+          <label *ngIf="!hero.alive"class="badge badge-danger">Dead</label>
+      </td>
     </tr>
   </tbody>
 </table>

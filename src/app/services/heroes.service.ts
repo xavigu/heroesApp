@@ -14,7 +14,7 @@ export class HeroesService {
 
   createHero(heroe: HeroeModel){
 
-    return this.http.post(`${this.url}/heroes.json`, heroe)
+    return this.http.post(`${this.url}/heroes.json`, heroe) //como estamos usando el recipe de Firebase hay que poner .json a la petición
             .pipe(
               map ( (resp: any) => {
                 heroe.id = resp.name;
@@ -34,6 +34,29 @@ export class HeroesService {
 
     return this.http.put(`${this.url}/heroes/${heroe.id}.json`, heroeTemp);
 
+  }
+
+  getHeroes(){
+    return this.http.get(`${this.url}/heroes.json`)
+            .pipe(
+              map(this.arrayHeroes) //el map sirve para transformar la respuesta obtenida en otra cosa y al hacer un subscribe en otro componente realmente se subscribe a esa transformación con el map
+                                    //ademas no hay que ponerle por parametro la resp puesto que la introduce directamente
+            );
+  }
+
+  private arrayHeroes(heroesObj: object){
+      const heroes: HeroeModel[] = []; //array de heroes
+      console.log(heroesObj);
+
+      if (heroesObj === null) { return []; }
+
+      Object.keys(heroesObj).forEach(key =>{ //recorre el objeto que se recoge del get a través de las keys
+        const heroe: HeroeModel = heroesObj[key]; //crea una variable heroe de tipo heroeModel y se le asigna el objeto de X key que posteriormente se pushea en el array de HeroeModels
+        heroe.id = key;
+        heroes.push(heroe);
+      })
+
+      return heroes
   }
 
 }
